@@ -66,12 +66,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 extern FILE *yyin;
 FILE * fileT;
 int yylex();
 void yyerror(const char *s);
 
-#line 75 "y.tab.c" /* yacc.c:339  */
+#line 76 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -123,10 +124,10 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 10 "roboticPlayer.y" /* yacc.c:355  */
+#line 11 "roboticPlayer.y" /* yacc.c:355  */
 int num;
 
-#line 130 "y.tab.c" /* yacc.c:355  */
+#line 131 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -143,7 +144,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 147 "y.tab.c" /* yacc.c:358  */
+#line 148 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -383,18 +384,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  15
+#define YYFINAL  12
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   22
+#define YYLAST   14
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  7
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  6
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  12
+#define YYNRULES  11
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  28
+#define YYNSTATES  19
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -441,8 +442,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    21,    21,    22,    26,    27,    28,    29,    33,    37,
-      40,    45,    47
+       0,    22,    22,    23,    27,    28,    29,    33,    37,    40,
+      45,    47
 };
 #endif
 
@@ -479,9 +480,8 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -3,     0,     2,     1,    -4,     9,    -3,    -4,    -4,    -4,
-       4,     5,     6,     7,     8,    -4,    -4,    -4,    -4,    10,
-      11,    -4,    12,    13,    14,    15,    -4,    -4
+       1,    -4,    -4,    -3,     2,     1,    -4,    -4,    -4,     3,
+       4,     5,    -4,    -4,     6,     7,    -4,    -4,    -4
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -489,21 +489,20 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       3,     0,     0,     0,     7,     0,     3,     4,     5,     6,
-       0,     0,     0,     0,     0,     1,     2,     9,    10,     0,
-       0,     8,     0,     0,     0,     0,    11,    12
+       3,     8,     9,     0,     0,     3,     4,     5,     6,     0,
+       0,     0,     1,     2,     0,     0,     7,    10,    11
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -4,    16,    -4,    -4,    -4,    -4
+      -4,     9,    -4,    -4,    -4,    -4
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     5,     6,     7,     8,     9
+      -1,     4,     5,     6,     7,     8
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -511,39 +510,36 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-       1,     2,     3,     4,    12,    13,    10,    14,    11,    15,
-      17,    18,    19,    20,    21,     0,    22,    23,    24,    25,
-      26,    27,    16
+       9,    10,    12,    11,     1,     2,     3,     0,     0,    14,
+      15,    16,    17,    18,    13
 };
 
 static const yytype_int8 yycheck[] =
 {
-       3,     4,     5,     6,     3,     4,     6,     6,     6,     0,
-       6,     6,     6,     6,     6,    -1,     6,     6,     6,     6,
-       6,     6,     6
+       3,     4,     0,     6,     3,     4,     5,    -1,    -1,     6,
+       6,     6,     6,     6,     5
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     3,     4,     5,     6,     8,     9,    10,    11,    12,
-       6,     6,     3,     4,     6,     0,     8,     6,     6,     6,
-       6,     6,     6,     6,     6,     6,     6,     6
+       0,     3,     4,     5,     8,     9,    10,    11,    12,     3,
+       4,     6,     0,     8,     6,     6,     6,     6,     6
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,     7,     8,     8,     9,     9,     9,     9,    10,    11,
-      11,    12,    12
+       0,     7,     8,     8,     9,     9,     9,    10,    11,    11,
+      12,    12
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     2,     0,     1,     1,     1,     1,     3,     3,
-       3,     6,     6
+       0,     2,     2,     0,     1,     1,     1,     3,     1,     1,
+       4,     4
 };
 
 
@@ -1220,43 +1216,37 @@ yyreduce:
   switch (yyn)
     {
         case 7:
-#line 29 "roboticPlayer.y" /* yacc.c:1646  */
-    {printf("Number is: %d\n", (yyvsp[0].num));}
-#line 1226 "y.tab.c" /* yacc.c:1646  */
+#line 34 "roboticPlayer.y" /* yacc.c:1646  */
+    {printf ("move to this location: (%d, %d)\n", (yyvsp[-1].num), (yyvsp[0].num));}
+#line 1222 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 34 "roboticPlayer.y" /* yacc.c:1646  */
-    {printf ("move to this location: (%d, %d)", (yyvsp[-1].num), (yyvsp[0].num));}
-#line 1232 "y.tab.c" /* yacc.c:1646  */
+#line 38 "roboticPlayer.y" /* yacc.c:1646  */
+    {printf ("pick to this location\n");}
+#line 1228 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 38 "roboticPlayer.y" /* yacc.c:1646  */
-    {printf ("pick to this location: (%d, %d)", (yyvsp[-1].num), (yyvsp[0].num));}
-#line 1238 "y.tab.c" /* yacc.c:1646  */
+#line 41 "roboticPlayer.y" /* yacc.c:1646  */
+    {printf ("drop to this location\n");}
+#line 1234 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 41 "roboticPlayer.y" /* yacc.c:1646  */
-    {printf ("drop to this location: (%d, %d)", (yyvsp[-1].num), (yyvsp[0].num));}
-#line 1244 "y.tab.c" /* yacc.c:1646  */
+#line 46 "roboticPlayer.y" /* yacc.c:1646  */
+    {printf ("Move pick from this location: (%d, %d)\n", (yyvsp[-1].num), (yyvsp[0].num));}
+#line 1240 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 46 "roboticPlayer.y" /* yacc.c:1646  */
-    {printf ("Move pick from this location: (%d, %d) to (%d, %d)", (yyvsp[-3].num), (yyvsp[-2].num), (yyvsp[-1].num), (yyvsp[0].num));}
-#line 1250 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 12:
 #line 48 "roboticPlayer.y" /* yacc.c:1646  */
-    {printf ("Move drop from this location: (%d, %d) to (%d, %d)", (yyvsp[-3].num), (yyvsp[-2].num), (yyvsp[-1].num), (yyvsp[0].num));}
-#line 1256 "y.tab.c" /* yacc.c:1646  */
+    {printf ("Move drop from this location: (%d, %d)\n", (yyvsp[-1].num), (yyvsp[0].num));}
+#line 1246 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1260 "y.tab.c" /* yacc.c:1646  */
+#line 1250 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1493,10 +1483,55 @@ void yyerror(const char * s){
 } 
 
 
+int findPythonString( const int argc, char * argv[]){
+    int result = argc;
+    for (int i = 0; i < argc ; i++){
+        if (strcmp(argv[i] ,"-p") == 0){
+            result = i + 1;
+            break;
+        }
+    }
+    return result;
+}
+
+int findConfigFile (const int argc, char * argv[]){
+    int result;
+    for (int i = 0; i < argc ; i++){
+        if (strcmp(argv[i] ,"-c") == 0){
+            result = i + 1;
+            break;
+        }
+    }
+    return result;
+}
+
+typedef struct yy_buffer_state * YY_BUFFER_STATE;
+extern int yyparse();
+extern YY_BUFFER_STATE yy_scan_string(char * str);
+extern void yy_delete_buffer(YY_BUFFER_STATE buffer);
+
 int main(int argc, char *argv[])
 {
-    yyin = fopen(argv[1], "r");
-    yyparse();
+    char * fileName, * pythonString;
+    
+    int configFileIndex = findConfigFile(argc, argv);
+    if (configFileIndex < argc){
+        fileName = argv[configFileIndex];
+        yyin = fopen(fileName, "r");    
+        yyparse();
+    }
+    else{
+        int pythonStringIndex = findPythonString(argc, argv);
+        if (pythonStringIndex < argc){
+            pythonString = argv[pythonStringIndex];
+            YY_BUFFER_STATE buffer = yy_scan_string(pythonString);
+            yyparse();
+            yy_delete_buffer(buffer);
+        }
+        else{
+            return -1;
+        }
+    }
     return 0;
 }
 

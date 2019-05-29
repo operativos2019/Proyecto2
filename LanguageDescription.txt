@@ -1,9 +1,9 @@
 The language used to move the Robotic Arm consist on the following syntax:
 
-pick a b
+pick
 move a b
-drop a b
-move pick a b c d
-move drop a b c d
+drop
+move pick a b
+move drop a b
 
-Where "a", "b", "c" & "d" are all integers between 0 and 10, excluding the latter.
+Where "a", "b" are all integers between 0 and 10, excluding the latter.

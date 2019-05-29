@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
+import os
 
 #Boolean to know if the arm is holding a piece
 global hasOnePicked
@@ -8,7 +9,10 @@ hasOnePicked = False
 
 #test command
 def moveCommand():
-    print ("Move called\n")
+    xValue = comboboxX.get()
+    yValue = comboboxY.get()
+    result = "./robot -p 'move " + xValue + " " +yValue + "'"
+    os.system(result)
 
 def pickCommand():
     global hasOnePicked
@@ -16,7 +20,8 @@ def pickCommand():
         messagebox.showerror("Error", "The robotic player is already holding a piece\nCall Drop or Move & Drop first")
     else:
         hasOnePicked = True
-        print ("Pick called\n")
+        result = "./robot -p pick"
+        os.system(result)
 
 def dropCommand():
     global hasOnePicked
@@ -24,7 +29,8 @@ def dropCommand():
         messagebox.showerror("Error", "The robotic player is not holding a piece\nCall Pick or Move & Pick first")
     else:
         hasOnePicked = False
-        print ("Drop called\n")
+        result = "./robot -p drop"
+        os.system(result)
 
 def movePickCommand():
     global hasOnePicked
@@ -32,7 +38,10 @@ def movePickCommand():
         messagebox.showerror("Error", "The robotic player is already holding a piece\nCall Drop or Move & Drop first")
     else:
         hasOnePicked = True
-        print("MovePick called\n")
+        xValue = comboboxX.get()
+        yValue = comboboxY.get()
+        result = "./robot -p 'move pick " + xValue + " " + yValue + "'"
+        os.system(result)
 
 def moveDropCommand():
     global hasOnePicked
@@ -40,7 +49,10 @@ def moveDropCommand():
         messagebox.showerror("Error", "The robotic player is already holding a piece\nCall Drop or Move & Drop first")
     else:
         hasOnePicked = False
-        print("MoveDrop called\n")
+        xValue = comboboxX.get()
+        yValue = comboboxY.get()
+        result = "./robot -p 'move drop " + xValue + " " + yValue + "'"
+        os.system(result)
     
 ########################### WINDOW CREATION ###########################
 #Root window creation
