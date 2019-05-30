@@ -1,3 +1,7 @@
+#This program implements the Graphical User Interface that interacts manually with the arm,
+#This GUI has options to send each one of the valid instructions to the interpreter so they can
+#be sent to the robotic player.
+
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
@@ -7,13 +11,18 @@ import os
 global hasOnePicked
 hasOnePicked = False
 
-#test command
+###
+#Sends the move instruction
+###
 def moveCommand():
     xValue = comboboxX.get()
     yValue = comboboxY.get()
-    result = "./robot -p 'move " + xValue + " " +yValue + "'"
+    result = "./robot -p 'move " + yValue + " " + xValue + "'"
     os.system(result)
 
+###
+#Sends the pick instruction
+###
 def pickCommand():
     global hasOnePicked
     if hasOnePicked:
@@ -23,6 +32,9 @@ def pickCommand():
         result = "./robot -p pick"
         os.system(result)
 
+###
+#Sends the drop instruction
+###
 def dropCommand():
     global hasOnePicked
     if not hasOnePicked:
@@ -32,6 +44,9 @@ def dropCommand():
         result = "./robot -p drop"
         os.system(result)
 
+###
+#Sends the move&pick instruction
+###
 def movePickCommand():
     global hasOnePicked
     if hasOnePicked:
@@ -43,6 +58,9 @@ def movePickCommand():
         result = "./robot -p 'move pick " + xValue + " " + yValue + "'"
         os.system(result)
 
+###
+#Sends the move&drop instruction
+###
 def moveDropCommand():
     global hasOnePicked
     if not hasOnePicked:
