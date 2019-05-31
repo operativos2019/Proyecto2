@@ -16,11 +16,23 @@ def getColor(color):
     if color == 2: 
         return "red"
     if color == 3:
-        return "white"
+        return "gray"
     if color == 4: 
-        return "red"
+        return "orange"
     else:
         return "blue"
+
+###
+#Receives a matrix of pieces, a pair of coordinates, a color number and the canvas
+#and it verifies whether the piece was crowned on the last movement and if it
+#was it updates the canvas
+##
+def wasCrowned(board, xSquare, ySquare, color, canvasName):
+    if ySquare == 9 and color == 1:
+        dropPiece(board, references, ySquare, xSquare, ySquare, xSquare, 3, canvasName)
+    if ySquare == 0 and color == 2:
+        dropPiece(board, references, ySquare, xSquare, ySquare, xSquare, 4, canvasName)
+
 
 ###
 ##Receives two coordinates, a color string and a canvas name and it draw a circle of that color 
@@ -50,9 +62,9 @@ def erasePiece(references, i, j, canvasName):
 #from the old position to the new.
 ###
 def dropPiece(board, references, ogI, ogJ, newI, newJ, color, canvasName):
-    board[newI][newJ] = color
     erasePiece(references, ogI, ogJ, canvasName)
     references[newI][newJ] = drawPiece(newI, newJ, getColor(color) ,canvasName)
+    board[newI][newJ] = color
 
 
 ###
@@ -75,11 +87,16 @@ def drawBoard(board):
 ###
 def isPiece(board, iPos, jPos):
     if board[iPos][jPos] != 0:
-        print(str(references[iPos][jPos]))
         return True
     else:
-        print("No reference")
         return False
+
+###
+#Receives an instruction and sends it to the interpreter
+###
+def sendInstruction(inst):
+    inst = "./robot -p '" + inst + "'"
+    os.system(inst)
 
 ###
 #This is the game's primary function it is called once the user clicks on the canvas
@@ -95,58 +112,137 @@ def mouseClicked(event):
         squareX = 0
     if squareY < 0:
         squareY = 0
+    #Pick a piece
     if not picked:
         if isPiece(board, squareY, squareX):
-            print("Pick piece on " +  str(squareY) + "," + str(squareX))
             picked = True
             pickedY = squareY
             pickedX = squareX
+            instruction = "move " + str(squareY) + " " + str(squareX) + " pick"
+            sendInstruction(instruction)
         else:
             print("Not a piece")
-        
+    #Drop a piece
     else:
         #hitting another piece or letting the piece go
         if isPiece(board, squareY, squareX): 
             if (squareY == pickedY and squareX == pickedX):
-                print("DROP THE PIECE ON ITS OWN PLACE")
+                print("Let the piece go")
                 picked = False
             else:
                 print("Not a valid movement")
-
-
         else: ##movements
-            if (board[pickedY][pickedX] == 1): 
+            if (board[pickedY][pickedX] == 1):
                 if (squareX == pickedX + 1 or squareX == pickedX -1) and squareY == pickedY + 1:
                     dropPiece(board, references, pickedY, pickedX, squareY, squareX, 1, mainCanvas)
+                    wasCrowned(board, squareX, squareY, 1, mainCanvas)
                     picked = False
-                elif squareX == pickedX + 2 and squareY == pickedY + 2 and isPiece(board, pickedY +1, pickedX + 1):                    
-                    picked = False
+                    instruction = "move " + str(squareY) + " " + str(squareX) + " drop"
+                    sendInstruction(instruction)
+                elif squareX == pickedX + 2 and squareY == pickedY + 2 and isPiece(board, pickedY +1, pickedX + 1):
                     dropPiece(board, references, pickedY, pickedX, squareY, squareX, 1, mainCanvas)
                     erasePiece(references, pickedY +1, pickedX +1, mainCanvas)
-                elif squareX == pickedX - 2 and squareY == pickedY + 2 and isPiece(board, pickedY + 1, pickedX - 1):
+                    wasCrowned(board, squareX, squareY, 1, mainCanvas)
                     picked = False
+                    instruction = "move " + str(squareY) + " " + str(squareX) + " drop"
+                    sendInstruction(instruction)
+                elif squareX == pickedX - 2 and squareY == pickedY + 2 and isPiece(board, pickedY + 1, pickedX - 1):
                     dropPiece(board, references, pickedY, pickedX, squareY, squareX, 1, mainCanvas)
                     erasePiece(references, pickedY + 1, pickedX - 1, mainCanvas)
+                    wasCrowned(board, squareX, squareY, 1, mainCanvas)
+                    picked = False
+                    instruction = "move " + str(squareY) + " " + str(squareX) + " drop"
+                    sendInstruction(instruction)
                 else:
                     print("Not a valid movement")
             elif (board[pickedY][pickedX] == 2): 
                 if (squareX == pickedX + 1 or squareX == pickedX -1) and squareY == pickedY - 1:
                     dropPiece(board, references, pickedY, pickedX, squareY, squareX, 2, mainCanvas)
+                    wasCrowned(board, squareX, squareY, 2, mainCanvas)
                     picked = False
+                    instruction = "move " + str(squareY) + " " + str(squareX) + " drop"
+                    sendInstruction(instruction)
                 elif squareX == pickedX + 2 and squareY == pickedY - 2 and isPiece(board, pickedY - 1, pickedX + 1):                    
                     dropPiece(board, references, pickedY, pickedX, squareY, squareX, 2, mainCanvas)
                     erasePiece(references, pickedY - 1, pickedX + 1, mainCanvas)
+                    wasCrowned(board, squareX, squareY, 2, mainCanvas)
                     picked = False
+                    instruction = "move " + str(squareY) + " " + str(squareX) + " drop"
+                    sendInstruction(instruction)
                 elif squareX == pickedX - 2 and squareY == pickedY - 2 and isPiece(board, pickedY - 1, pickedX - 1):
                     dropPiece(board, references, pickedY, pickedX, squareY, squareX, 2, mainCanvas)
                     erasePiece(references, pickedY - 1, pickedX - 1, mainCanvas)
+                    wasCrowned(board, squareX, squareY, 2, mainCanvas)
                     picked = False
+                    instruction = "move " + str(squareY) + " " + str(squareX) + " drop"
+                    sendInstruction(instruction)
                 else:
                     print("Not a valid movement")
-            else: ##crowned
+
+            elif (board[pickedY][pickedX] == 3): #crowned 3
                 if (squareX == pickedX + 1 or squareX == pickedX -1) and (squareY == pickedY + 1 or squareY == pickedY -1):
-                    print("DROPE THE PIECE ON A NEW PLACE")
+                    dropPiece(board, references, pickedY, pickedX, squareY, squareX, 3, mainCanvas)                    
                     picked = False
+                    instruction = "move " + str(squareY) + " " + str(squareX) + " drop"
+                    sendInstruction(instruction)
+                elif squareX == pickedX + 2 and squareY == pickedY + 2 and isPiece(board, pickedY + 1, pickedX + 1):
+                    dropPiece(board, references, pickedY, pickedX, squareY, squareX, 3, mainCanvas)
+                    erasePiece(references, pickedY + 1, pickedX + 1, mainCanvas) 
+                    picked = False
+                    instruction = "move " + str(squareY) + " " + str(squareX) + " drop"
+                    sendInstruction(instruction)
+                elif squareX == pickedX + 2 and squareY == pickedY - 2 and isPiece(board, pickedY - 1, pickedX + 1):
+                    dropPiece(board, references, pickedY, pickedX, squareY, squareX, 3, mainCanvas)
+                    erasePiece(references, pickedY - 1, pickedX + 1, mainCanvas) 
+                    picked = False
+                    instruction = "move " + str(squareY) + " " + str(squareX) + " drop"
+                    sendInstruction(instruction)
+                elif squareX == pickedX - 2 and squareY == pickedY + 2 and isPiece(board, pickedY + 1, pickedX - 1):
+                    dropPiece(board, references, pickedY, pickedX, squareY, squareX, 3, mainCanvas)
+                    erasePiece(references, pickedY + 1, pickedX - 1, mainCanvas) 
+                    picked = False
+                    instruction = "move " + str(squareY) + " " + str(squareX) + " drop"
+                    sendInstruction(instruction)
+                elif squareX == pickedX - 2 and squareY == pickedY - 2 and isPiece(board, pickedY - 1, pickedX - 1):
+                    dropPiece(board, references, pickedY, pickedX, squareY, squareX, 3, mainCanvas)
+                    erasePiece(references, pickedY - 1, pickedX - 1, mainCanvas) 
+                    picked = False
+                    instruction = "move " + str(squareY) + " " + str(squareX) + " drop"
+                    sendInstruction(instruction)
+                else:
+                    print("Not a valid movement")
+            else: ##crowned 4
+                print("Crowned movement")
+                print(str(squareY) + "-" + str(squareX))
+                if (squareX == pickedX + 1 or squareX == pickedX -1) and (squareY == pickedY + 1 or squareY == pickedY -1):
+                    dropPiece(board, references, pickedY, pickedX, squareY, squareX, 4, mainCanvas)
+                    picked = False
+                    instruction = "move " + str(squareY) + " " + str(squareX) + " drop"
+                    sendInstruction(instruction)
+                elif squareX == pickedX + 2 and squareY == pickedY + 2 and isPiece(board, pickedY + 1, pickedX + 1):
+                    dropPiece(board, references, pickedY, pickedX, squareY, squareX, 4, mainCanvas)
+                    erasePiece(references, pickedY + 1, pickedX + 1, mainCanvas) 
+                    picked = False
+                    instruction = "move " + str(squareY) + " " + str(squareX) + " drop"
+                    sendInstruction(instruction)
+                elif squareX == pickedX + 2 and squareY == pickedY - 2 and isPiece(board, pickedY - 1, pickedX + 1):
+                    dropPiece(board, references, pickedY, pickedX, squareY, squareX, 4, mainCanvas)
+                    erasePiece(references, pickedY - 1, pickedX + 1, mainCanvas) 
+                    picked = False
+                    instruction = "move " + str(squareY) + " " + str(squareX) + " drop"
+                    sendInstruction(instruction)
+                elif squareX == pickedX - 2 and squareY == pickedY + 2 and isPiece(board, pickedY + 1, pickedX - 1):
+                    dropPiece(board, references, pickedY, pickedX, squareY, squareX, 4, mainCanvas)
+                    erasePiece(references, pickedY + 1, pickedX - 1, mainCanvas) 
+                    picked = False
+                    instruction = "move " + str(squareY) + " " + str(squareX) + " drop"
+                    sendInstruction(instruction)
+                elif squareX == pickedX - 2 and squareY == pickedY - 2 and isPiece(board, pickedY - 1, pickedX - 1):
+                    dropPiece(board, references, pickedY, pickedX, squareY, squareX, 4, mainCanvas)
+                    erasePiece(references, pickedY - 1, pickedX - 1, mainCanvas) 
+                    picked = False
+                    instruction = "move " + str(squareY) + " " + str(squareX) + " drop"
+                    sendInstruction(instruction)
                 else:
                     print("Not a valid movement")
 
