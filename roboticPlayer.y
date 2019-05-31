@@ -32,23 +32,23 @@ function:
 
 
 movef:   MOVE NUMBER NUMBER 
-        {printf ("Move to this location: (%d, %d)\n", $<num>2, $<num>3);}
+        {move($<num>3, $<num>2);}
         ;
 
 pick_dropf:PICK 
-        {printf ("Pick to this location\n");
-         sendOne();
-         printf ("One sended\n");}
+        {pick();}
         |
         DROP
-        {printf ("Drop to this location\n");}
+        {drop();}
         ;
         ;
 
 mixedf: MOVE PICK NUMBER NUMBER
-        {printf ("Move pick from this location: (%d, %d)\n", $<num>3, $<num>4);}
+        {move($<num>4, $<num>3);
+        pick();}
         | MOVE DROP NUMBER NUMBER
-        {printf ("Move drop from this location: (%d, %d)\n", $<num>3, $<num>4);}
+        {move($<num>4, $<num>3);
+        drop();}
         ;
 %%
 

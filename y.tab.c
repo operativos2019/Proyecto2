@@ -67,12 +67,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "roboticPlayer.c"
 extern FILE *yyin;
 FILE * fileT;
 int yylex();
 void yyerror(const char *s);
 
-#line 76 "y.tab.c" /* yacc.c:339  */
+#line 77 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -124,10 +125,10 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 11 "roboticPlayer.y" /* yacc.c:355  */
+#line 12 "roboticPlayer.y" /* yacc.c:355  */
 int num;
 
-#line 131 "y.tab.c" /* yacc.c:355  */
+#line 132 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -144,7 +145,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 148 "y.tab.c" /* yacc.c:358  */
+#line 149 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -442,8 +443,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    22,    22,    23,    27,    28,    29,    33,    37,    40,
-      45,    47
+       0,    23,    23,    24,    28,    29,    30,    34,    38,    41,
+      46,    49
 };
 #endif
 
@@ -1216,37 +1217,39 @@ yyreduce:
   switch (yyn)
     {
         case 7:
-#line 34 "roboticPlayer.y" /* yacc.c:1646  */
-    {printf ("move to this location: (%d, %d)\n", (yyvsp[-1].num), (yyvsp[0].num));}
-#line 1222 "y.tab.c" /* yacc.c:1646  */
+#line 35 "roboticPlayer.y" /* yacc.c:1646  */
+    {move((yyvsp[0].num), (yyvsp[-1].num));}
+#line 1223 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 38 "roboticPlayer.y" /* yacc.c:1646  */
-    {printf ("pick to this location\n");}
-#line 1228 "y.tab.c" /* yacc.c:1646  */
+#line 39 "roboticPlayer.y" /* yacc.c:1646  */
+    {pick();}
+#line 1229 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 41 "roboticPlayer.y" /* yacc.c:1646  */
-    {printf ("drop to this location\n");}
-#line 1234 "y.tab.c" /* yacc.c:1646  */
+#line 42 "roboticPlayer.y" /* yacc.c:1646  */
+    {drop();}
+#line 1235 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 46 "roboticPlayer.y" /* yacc.c:1646  */
-    {printf ("Move pick from this location: (%d, %d)\n", (yyvsp[-1].num), (yyvsp[0].num));}
-#line 1240 "y.tab.c" /* yacc.c:1646  */
+#line 47 "roboticPlayer.y" /* yacc.c:1646  */
+    {move((yyvsp[0].num), (yyvsp[-1].num));
+        pick();}
+#line 1242 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 48 "roboticPlayer.y" /* yacc.c:1646  */
-    {printf ("Move drop from this location: (%d, %d)\n", (yyvsp[-1].num), (yyvsp[0].num));}
-#line 1246 "y.tab.c" /* yacc.c:1646  */
+#line 50 "roboticPlayer.y" /* yacc.c:1646  */
+    {move((yyvsp[0].num), (yyvsp[-1].num));
+        drop();}
+#line 1249 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1250 "y.tab.c" /* yacc.c:1646  */
+#line 1253 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1474,7 +1477,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 50 "roboticPlayer.y" /* yacc.c:1906  */
+#line 53 "roboticPlayer.y" /* yacc.c:1906  */
 
 
 void yyerror(const char * s){
