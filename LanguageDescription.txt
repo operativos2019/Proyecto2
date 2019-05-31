@@ -1,0 +1,9 @@
+The language used to move the Robotic Arm consist on the following functions
+
+pick
+drop
+move a b
+move pick a b
+move drop a b
+
+Where "a", "b" are all integers between 0 and 10, excluding the latter.
