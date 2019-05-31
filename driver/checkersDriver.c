@@ -8,9 +8,9 @@
 #include <linux/kernel.h>
 #include <linux/uaccess.h>
 
-#define USB_VENDOR_ID	0x2A03
-#define USB_PRODUCT_ID	0x0043
-#define USB_ROBOTICFINGER_MINOR_BASE	0
+#define USB_VENDOR_ID	0x1A86
+#define USB_PRODUCT_ID	0x7523
+#define USB_ROBOTICFINGER_MINOR_BASE	192
 
 MODULE_VERSION("0.1");
 MODULE_AUTHOR("Grupo2");
