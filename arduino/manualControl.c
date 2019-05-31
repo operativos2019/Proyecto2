@@ -22,7 +22,7 @@ int main(int argc, char const *argv[]) {
       printf("Type in a short string to send to the kernel module:\n");
       scanf("%d", &integerFromUser);
       led_s.ledState = integerFromUser;
-      device = fopen("/dev/arduino0","w+");
+      device = fopen("/dev/arduino1","w+");
       if(device != NULL){
           fwrite((const void *) &led_s, sizeof(led_struct), 1, device);
           fclose(device);

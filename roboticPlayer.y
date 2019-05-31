@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "roboticPlayer.c"
 extern FILE *yyin;
 FILE * fileT;
 int yylex();
@@ -35,7 +36,9 @@ movef:   MOVE NUMBER NUMBER
         ;
 
 pick_dropf:PICK 
-        {printf ("Pick to this location\n");}
+        {printf ("Pick to this location\n");
+         sendOne();
+         printf ("One sended\n");}
         |
         DROP
         {printf ("Drop to this location\n");}
