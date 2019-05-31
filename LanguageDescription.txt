@@ -1,8 +1,8 @@
-The language used to move the Robotic Arm consist on the following syntax:
+The language used to move the Robotic Arm consist on the following functions
 
 pick
-move a b
 drop
+move a b
 move pick a b
 move drop a b
 

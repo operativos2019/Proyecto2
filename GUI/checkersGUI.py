@@ -39,7 +39,9 @@ def drawPiece(ySquare, xSquare, color, canvasName):
 #Deletes the reference of the oval drawn on said coordinates from the reference matrix.
 ###
 def erasePiece(references, i, j, canvasName):
+    board[i][j] = 0
     canvasName.delete(references[i][j])
+    
 
 ###
 #Receives the matrix of pieces, the matrix of oval references, two pairs of coordinates, 
@@ -48,7 +50,6 @@ def erasePiece(references, i, j, canvasName):
 #from the old position to the new.
 ###
 def dropPiece(board, references, ogI, ogJ, newI, newJ, color, canvasName):
-    board[ogI][ogJ] = 0
     board[newI][newJ] = color
     erasePiece(references, ogI, ogJ, canvasName)
     references[newI][newJ] = drawPiece(newI, newJ, getColor(color) ,canvasName)
@@ -74,8 +75,10 @@ def drawBoard(board):
 ###
 def isPiece(board, iPos, jPos):
     if board[iPos][jPos] != 0:
+        print(str(references[iPos][jPos]))
         return True
     else:
+        print("No reference")
         return False
 
 ###
@@ -112,17 +115,31 @@ def mouseClicked(event):
 
 
         else: ##movements
-            if (board[pickedY][pickedX] == 1): #validar comer +2 and (-2 or +2) con pieza en el medio del otro
+            if (board[pickedY][pickedX] == 1): 
                 if (squareX == pickedX + 1 or squareX == pickedX -1) and squareY == pickedY + 1:
                     dropPiece(board, references, pickedY, pickedX, squareY, squareX, 1, mainCanvas)
-                    print("DROP THE PIECE ON A NEW PLACE")
                     picked = False
+                elif squareX == pickedX + 2 and squareY == pickedY + 2 and isPiece(board, pickedY +1, pickedX + 1):                    
+                    picked = False
+                    dropPiece(board, references, pickedY, pickedX, squareY, squareX, 1, mainCanvas)
+                    erasePiece(references, pickedY +1, pickedX +1, mainCanvas)
+                elif squareX == pickedX - 2 and squareY == pickedY + 2 and isPiece(board, pickedY + 1, pickedX - 1):
+                    picked = False
+                    dropPiece(board, references, pickedY, pickedX, squareY, squareX, 1, mainCanvas)
+                    erasePiece(references, pickedY + 1, pickedX - 1, mainCanvas)
                 else:
                     print("Not a valid movement")
-            elif (board[pickedY][pickedX] == 2): #validar comer +2 and (-2 or +2) con pieza en el medio del otro
+            elif (board[pickedY][pickedX] == 2): 
                 if (squareX == pickedX + 1 or squareX == pickedX -1) and squareY == pickedY - 1:
                     dropPiece(board, references, pickedY, pickedX, squareY, squareX, 2, mainCanvas)
-                    print("DROPE THE PIECE ON A NEW PLACE")
+                    picked = False
+                elif squareX == pickedX + 2 and squareY == pickedY - 2 and isPiece(board, pickedY - 1, pickedX + 1):                    
+                    dropPiece(board, references, pickedY, pickedX, squareY, squareX, 2, mainCanvas)
+                    erasePiece(references, pickedY - 1, pickedX + 1, mainCanvas)
+                    picked = False
+                elif squareX == pickedX - 2 and squareY == pickedY - 2 and isPiece(board, pickedY - 1, pickedX - 1):
+                    dropPiece(board, references, pickedY, pickedX, squareY, squareX, 2, mainCanvas)
+                    erasePiece(references, pickedY - 1, pickedX - 1, mainCanvas)
                     picked = False
                 else:
                     print("Not a valid movement")

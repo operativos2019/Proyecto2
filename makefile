@@ -1,4 +1,5 @@
 #!/bin/bash
+#Make file to compile the interpreter
 yacc -d roboticPlayer.y 
 flex roboticPlayer.l 
 gcc -c lex.yy.c 
