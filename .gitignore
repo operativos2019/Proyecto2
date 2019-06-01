@@ -7,4 +7,5 @@
 *.cmd
 .tmp_versions/
 .vscode/
-
+robot
+y.tab.*
