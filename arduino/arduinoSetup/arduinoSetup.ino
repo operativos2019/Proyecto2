@@ -9,110 +9,110 @@ Servo servo_9;
 Servo servo_10;
 int electroIman_Pin = 11;
 
-/* Structures, global variables */
+/* Structures, global variables 
 typedef struct led {
   uint8_t ledState;
-} point_struct;
+} point_struct;*/
+
+//struct used to comunicate
+typedef struct message {
+    int servo1; //arriba y abajo 320-350
+    int servo2; //derecha e izquierda 190-10
+    int servo3; //adelante y atras 0-180
+    int magnet; //iman 1 o 0
+} message_struct;
 
 /* actual point */
-point_struct *actual_pos;
+mesage_struct* lastMessage;
+mesage_struct* currentMessage; 
 
-int struct_size = (int) sizeof(struct led);
+int struct_size = (int) sizeof(struct message);
 
-uint8_t initialLedState = 0;
-
-void movDown(){
-  for (pos = 120; pos >= 10; pos -= 1) {
+void movDown(int coor){
+  //coor = 10 full
+  for (pos = 120; pos >= coor; pos -= 1) {
     // tell servo to go to position in variable 'pos'
-    servo_8.write(pos);
+    servo_8.write(120);
     // wait 15 ms for servo to reach the position
     delay(15); // Wait for 15 millisecond(s)
-  }    
+  }
 }
 
-void movUp(){
-  for (pos = 90; pos <= 120; pos += 1) {
+void movUp(int coor){
+  //coor = 120 full
+  for (pos = 90; pos <= coor; pos += 1) {
     // tell servo to go to position in variable 'pos'
     servo_8.write(pos);
     // wait 15 ms for servo to reach the position
     delay(15); // Wait for 15 millisecond(s)
   }
 }
+
+
 
 void movStop(){
   //reposo para servo 9
   servo_9.write(90);
   delay(1000);
-  
   //reposo para servo 10
   servo_10.write(100);
   delay(1000);
-
   //reposo para servo 8
   servo_8.write(10);
   delay(1000);
+}
+
+
+void movRight(int coor){
+  //coor = 10 full
+  for (pos = 100; pos >= coor; pos -= 1) {
+    // tell servo to go to position in variable 'pos'
+    servo_10.write(pos);
+    // wait 15 ms for servo to reach the position
+    delay(15); // Wait for 15 millisecond(s)
+  }
+}
+
+void movLeft(int coor){
+  //coor = 190 full
+  for (pos = 100; pos <= coor; pos += 1) {
+    // tell servo to go to position in variable 'pos'
+    servo_10.write(pos);
+    // wait 15 ms for servo to reach the position
+    delay(15); // Wait for 15 millisecond(s)
+  }
+}
+
+void movForward(int coor){
+  //coor = 350 full
+  for (pos = 320; pos <= coor; pos += 1) {
+    // tell servo to go to position in variable 'pos'
+    servo_9.write(pos);
+    // wait 15 ms for servo to reach the position
+    delay(15); // Wait for 15 millisecond(s)
+  }
   
-  //movDown();
-  //movBackwards();
 }
 
-void movRight(){
-  for (pos = 100; pos >= 10; pos -= 1) {
-    // tell servo to go to position in variable 'pos'
-    servo_10.write(pos);
-    // wait 15 ms for servo to reach the position
-    delay(15); // Wait for 15 millisecond(s)
-  }
-}
-
-void movLeft(){
-  for (pos = 100; pos <= 180; pos += 1) {
-    // tell servo to go to position in variable 'pos'
-    servo_10.write(pos);
-    // wait 15 ms for servo to reach the position
-    delay(15); // Wait for 15 millisecond(s)
-  }
-}
-
-void movForward(){
-  movUp();
-  for (pos = 320; pos <= 350; pos += 1) {
+void movBackward(int coor){
+  //coor = 90 full
+  for (pos = 320; pos >= coor; pos -= 1) {
     // tell servo to go to position in variable 'pos'
     servo_9.write(pos);
     // wait 15 ms for servo to reach the position
     delay(15); // Wait for 15 millisecond(s)
   }
+  //movRight(coor);
 }
 
-void movBackwards(){
-  movDown();
-  for (pos = 320; pos >= 90; pos -= 1) {
-    // tell servo to go to position in variable 'pos'
-    servo_9.write(pos);
-    // wait 15 ms for servo to reach the position
-    delay(15); // Wait for 15 millisecond(s)
-  }
-  movRight();
+void magOn(){
+ digitalWrite(electroIman_Pin, HIGH);
+ delay(1000);
 }
 
-void movClose(){
-  movUp();
-  delay(15);
-  movDown();
-  delay(15);
-  movForward();
-  delay(15);
-  movBackwards();
-  delay(15);
-}
-
-void movLarge(){
-  movForward();
-  delay(15);
-  movDown();
-  delay(30);
-  movUp();
-  delay(15);
+void magOff(){
+ digitalWrite(electroIman_Pin, LOW);
+ delay(1000); 
 }
 
 
@@ -120,6 +120,9 @@ void movLarge(){
  * void setup() - Initialisations
  ***********************/
 void setup() {
+  lastMessage->servo1 = 90;
+  lastMessage->servo2 = 100;
+  lastMessage->servo3 = 10;
   servo_8.attach(8);
   servo_9.attach(9);
   servo_10.attach(10);
@@ -132,7 +135,6 @@ void setup() {
 /******************************************************
 Serial read and moving determination
 ******************************************************/
-int control;
 
 void loop(){
 
@@ -140,36 +142,36 @@ void loop(){
     digitalWrite(LED_BUILTIN, 1);
     char serial_buffer [struct_size];
     Serial.readBytes(serial_buffer, struct_size);
-    actual_pos = (point_struct*) &serial_buffer;
-    control = actual_pos->ledState;
-    if(control == 1) {
-      movDown();
+    currentMessage = (message_struct*) &serial_buffer;
+    
+    if(lastMessage->servo1 > currentMessage->servo1) {
+      movUp(lastMessage->servo1 - currentMessage->servo1);    
     }
-    else if(control == 2) {
-      movUp();
+    else {
+      movDown(currentMessage->servo1 - lastMessage->servo1);
     }
-    else if(control == 3) {
-      movStop();
+
+    if(lastMessage->servo2 > currentMessage->servo2) {
+      movRight(lastMessage->servo2 - currentMessage->servo2);    
     }
-    else if (control == 4){
-      movRight();
+    else {
+      movLeft(currentMessage->servo2 - lastMessage->servo2);
     }
-    else if(control == 5) {
-      movLeft();    
+
+    if(lastMessage->servo3 > currentMessage->servo3) {
+      movForward(lastMessage->servo3 - currentMessage->servo3);    
     }
-    else if(control == 6) {
-      movForward();
-    }  
-    else if(control == 7) {
-      movBackwards();
+    else {
+      movBackwar(currentMessage->servo3 - lastMessage->servo3);
     }
-    else if(control == 8) {
-      movClose();
+
+    if(currentMessage->magnet) {
+       magOn();
     }
-    else if(control == 9) {
-      movLarge();
+    else {
+      magOff();
     }
-    delay(1000);
+    delay(500);
     digitalWrite(LED_BUILTIN, 0);
   }
 }
